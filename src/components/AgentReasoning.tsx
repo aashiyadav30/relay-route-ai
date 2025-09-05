@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, X, Lightbulb, Target, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -35,7 +36,30 @@ export const AgentReasoning = ({ isProcessing, lastAction, onClose }: AgentReaso
     }
   ];
 
-  const confidence = isProcessing ? 85 : 92;
+  // Dynamic confidence that changes over time
+  const [confidence, setConfidence] = useState(92);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isProcessing) {
+        // During processing, confidence fluctuates more
+        setConfidence(prev => {
+          const variation = (Math.random() - 0.5) * 8; // ±4%
+          const newValue = 85 + variation;
+          return Math.max(75, Math.min(95, newValue));
+        });
+      } else {
+        // When idle, more stable but still some variation
+        setConfidence(prev => {
+          const variation = (Math.random() - 0.5) * 4; // ±2%
+          const newValue = 92 + variation;
+          return Math.max(88, Math.min(96, newValue));
+        });
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [isProcessing]);
 
   return (
     <div className="p-4">

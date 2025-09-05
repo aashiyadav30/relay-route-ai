@@ -16,6 +16,56 @@ interface MapPanelProps {
 export const MapPanel = ({ drivers, isExpanded, onToggleExpand }: MapPanelProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
+  const [driverPositions, setDriverPositions] = useState<{[key: string]: {x: number, y: number}}>({});
+
+  // Initialize scattered positions for drivers
+  useEffect(() => {
+    const positions: {[key: string]: {x: number, y: number}} = {};
+    const areas = [
+      {minX: 50, maxX: 200, minY: 60, maxY: 140},   // Northwest
+      {minX: 200, maxX: 400, minY: 80, maxY: 180},  // North
+      {minX: 400, maxX: 600, minY: 90, maxY: 170},  // Northeast
+      {minX: 80, maxX: 280, minY: 180, maxY: 280},  // West
+      {minX: 280, maxX: 520, minY: 160, maxY: 260}, // Center
+      {minX: 520, maxX: 750, minY: 140, maxY: 240}, // East
+      {minX: 120, maxX: 320, minY: 280, maxY: 350}, // Southwest
+      {minX: 320, maxX: 580, minY: 270, maxY: 340}, // South
+      {minX: 580, maxX: 780, minY: 260, maxY: 330}, // Southeast
+      {minX: 650, maxX: 820, minY: 100, maxY: 200}  // Far East
+    ];
+    
+    drivers.forEach((driver, index) => {
+      const area = areas[index % areas.length];
+      positions[driver.id] = {
+        x: area.minX + Math.random() * (area.maxX - area.minX),
+        y: area.minY + Math.random() * (area.maxY - area.minY)
+      };
+    });
+    
+    setDriverPositions(positions);
+  }, [drivers]);
+
+  // Animate driver movement over time
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDriverPositions(prev => {
+        const updated = { ...prev };
+        Object.keys(updated).forEach(driverId => {
+          const driver = drivers.find(d => d.id === driverId);
+          if (driver?.status === 'active' || driver?.status === 'busy') {
+            // Small random movement for active/busy drivers
+            updated[driverId] = {
+              x: Math.max(20, Math.min(800, updated[driverId].x + (Math.random() - 0.5) * 15)),
+              y: Math.max(40, Math.min(360, updated[driverId].y + (Math.random() - 0.5) * 10))
+            };
+          }
+        });
+        return updated;
+      });
+    }, 3000); // Update every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [drivers]);
 
   // Mock map implementation - in real app would use Mapbox/Google Maps
   const MapComponent = () => {
@@ -35,84 +85,111 @@ export const MapPanel = ({ drivers, isExpanded, onToggleExpand }: MapPanelProps)
 
         {/* Roads and Routes */}
         <svg className="absolute inset-0 w-full h-full">
-          {/* Main routes */}
+          {/* Extended Main routes */}
           <path 
-            d="M 50 50 Q 200 100 350 150 Q 450 200 600 250" 
+            d="M 20 80 Q 120 60 220 90 Q 320 120 420 100 Q 520 80 620 110 Q 720 140 800 120" 
             stroke="hsl(var(--route-primary))" 
             strokeWidth="4" 
             fill="none"
             className="opacity-70"
           />
           <path 
-            d="M 100 300 Q 250 250 400 200 Q 500 150 650 200" 
+            d="M 30 180 Q 130 200 230 170 Q 330 140 430 160 Q 530 180 630 150 Q 730 120 820 140" 
             stroke="hsl(var(--route-primary))" 
             strokeWidth="4" 
             fill="none"
             className="opacity-70"
           />
-          {/* Alternative route (highlighted) */}
           <path 
-            d="M 50 50 L 150 80 L 300 120 L 450 180 L 600 250" 
+            d="M 80 300 Q 180 280 280 300 Q 380 320 480 300 Q 580 280 680 300 Q 780 320 850 300" 
+            stroke="hsl(var(--route-primary))" 
+            strokeWidth="4" 
+            fill="none"
+            className="opacity-70"
+          />
+          {/* Extended Alternative routes */}
+          <path 
+            d="M 20 80 L 90 95 L 160 85 L 230 100 L 300 90 L 370 105 L 440 95 L 510 110 L 580 100 L 650 115 L 720 105 L 800 120" 
             stroke="hsl(var(--route-alternative))" 
             strokeWidth="3" 
             fill="none"
             strokeDasharray="8,4"
             className="opacity-80"
           />
+          <path 
+            d="M 50 250 L 140 240 L 220 255 L 310 245 L 400 260 L 490 250 L 580 265 L 670 255 L 750 270 L 830 260" 
+            stroke="hsl(var(--route-alternative))" 
+            strokeWidth="3" 
+            fill="none"
+            strokeDasharray="6,3"
+            className="opacity-70"
+          />
         </svg>
 
         {/* Driver Markers */}
-        {drivers.map((driver, index) => (
-          <motion.div
-            key={driver.id}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 }}
-            className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer`}
-            style={{
-              left: `${20 + (index * 50) % 600}px`,
-              top: `${80 + (index * 30) % 300}px`
-            }}
-            onClick={() => setSelectedDriver(driver)}
-          >
-            <div className={`relative driver-marker ${driver.status} hover-scale`}>
-              <motion.div
-                animate={{ 
-                  scale: driver.status === 'active' ? [1, 1.2, 1] : 1 
-                }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: driver.status === 'active' ? Infinity : 0,
-                  ease: "easeInOut"
-                }}
-                className={`w-4 h-4 rounded-full border-2 border-white shadow-md ${
-                  driver.status === 'active' 
-                    ? 'bg-driver-active' 
-                    : driver.status === 'busy'
-                    ? 'bg-status-busy'
-                    : 'bg-driver-inactive'
-                }`}
-              />
-              {/* Direction indicator */}
-              <div className="absolute -top-1 -right-1">
-                <Navigation className="w-2 h-2 text-primary rotate-45" />
+        {drivers.map((driver, index) => {
+          const position = driverPositions[driver.id] || { x: 100, y: 100 };
+          return (
+            <motion.div
+              key={driver.id}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1,
+                x: position.x,
+                y: position.y
+              }}
+              transition={{ 
+                delay: index * 0.1,
+                x: { duration: 2, ease: "easeInOut" },
+                y: { duration: 2, ease: "easeInOut" }
+              }}
+              className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer`}
+              onClick={() => setSelectedDriver(driver)}
+            >
+              <div className={`relative driver-marker ${driver.status} hover-scale`}>
+                <motion.div
+                  animate={{ 
+                    scale: driver.status === 'active' ? [1, 1.2, 1] : 1 
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: driver.status === 'active' ? Infinity : 0,
+                    ease: "easeInOut"
+                  }}
+                  className={`w-4 h-4 rounded-full border-2 border-white shadow-md ${
+                    driver.status === 'active' 
+                      ? 'bg-driver-active' 
+                      : driver.status === 'busy'
+                      ? 'bg-status-busy'
+                      : 'bg-driver-inactive'
+                  }`}
+                />
+                {/* Direction indicator */}
+                <div className="absolute -top-1 -right-1">
+                  <Navigation className="w-2 h-2 text-primary rotate-45" />
+                </div>
               </div>
-            </div>
-            {/* Driver label */}
-            <div className="absolute top-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-              <Badge variant="secondary" className="text-xs px-1 py-0">
-                {driver.name}
-              </Badge>
-            </div>
-          </motion.div>
-        ))}
+              {/* Driver label */}
+              <div className="absolute top-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                <Badge variant="secondary" className="text-xs px-1 py-0">
+                  {driver.name}
+                </Badge>
+              </div>
+            </motion.div>
+          );
+        })}
 
         {/* Delivery Points */}
         {[
-          { x: 150, y: 120, status: 'completed' },
-          { x: 300, y: 180, status: 'active' },
-          { x: 450, y: 240, status: 'pending' },
-          { x: 550, y: 160, status: 'pending' }
+          { x: 180, y: 95, status: 'completed' },
+          { x: 320, y: 140, status: 'active' },
+          { x: 480, y: 190, status: 'pending' },
+          { x: 620, y: 130, status: 'pending' },
+          { x: 750, y: 170, status: 'completed' },
+          { x: 220, y: 250, status: 'active' },
+          { x: 410, y: 290, status: 'pending' },
+          { x: 680, y: 280, status: 'completed' }
         ].map((point, index) => (
           <div
             key={index}
@@ -141,8 +218,8 @@ export const MapPanel = ({ drivers, isExpanded, onToggleExpand }: MapPanelProps)
 
         {/* Map Controls */}
         <div className="absolute top-4 right-4 space-y-2">
-          <Button size="sm" variant="secondary" className="h-8 w-8 p-0 shadow-smooth">
-            <Maximize2 className="w-4 h-4" onClick={onToggleExpand} />
+          <Button size="sm" variant="secondary" className="h-8 w-8 p-0 shadow-smooth" onClick={onToggleExpand}>
+            <Maximize2 className="w-4 h-4" />
           </Button>
         </div>
       </div>
