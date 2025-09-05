@@ -2,41 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Agentic Last-Mile Coordinator Design System */
+/* Professional logistics interface with modern chat and real-time tracking */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core logistics theme - professional blues and emerald accents */
+    --background: 240 10% 98%;
+    --foreground: 215 25% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Deep logistics blue - professional and trustworthy */
+    --primary: 215 84% 24%;
+    --primary-light: 215 84% 34%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Emerald accent for success states and actions */
+    --accent: 160 84% 39%;
+    --accent-light: 160 84% 49%;
+    --accent-foreground: 0 0% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 215 16% 94%;
+    --secondary-foreground: 215 25% 25%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 215 16% 96%;
+    --muted-foreground: 215 16% 46%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Warning and error states for delivery issues */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 98%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Enhanced success for completed deliveries */
+    --success: 160 84% 39%;
+    --success-foreground: 0 0% 98%;
 
-    --radius: 0.5rem;
+    --border: 215 16% 90%;
+    --input: 215 16% 94%;
+    --ring: 215 84% 24%;
+
+    --radius: 0.75rem;
+
+    /* Agent-specific colors */
+    --agent-bg: 215 84% 24%;
+    --agent-text: 0 0% 98%;
+    --user-bg: 215 16% 96%;
+    --user-text: 215 25% 15%;
+
+    /* Map and driver colors */
+    --driver-active: 160 84% 39%;
+    --driver-inactive: 215 16% 70%;
+    --route-primary: 215 84% 34%;
+    --route-alternative: 38 92% 50%;
+
+    /* Status colors */
+    --status-online: 160 84% 39%;
+    --status-busy: 38 92% 50%;
+    --status-offline: 215 16% 60%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(215 84% 24%) 0%, hsl(215 84% 34%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(160 84% 39%) 0%, hsl(160 84% 49%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(215 16% 98%) 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px hsl(215 25% 15% / 0.1);
+    --shadow-md: 0 4px 12px hsl(215 25% 15% / 0.15);
+    --shadow-lg: 0 10px 25px hsl(215 25% 15% / 0.2);
+    --shadow-glow: 0 0 20px hsl(215 84% 24% / 0.3);
+
+    /* Animation easing */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,42 +109,76 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode for logistics interface */
+    --background: 215 28% 8%;
+    --foreground: 215 16% 90%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 215 28% 10%;
+    --card-foreground: 215 16% 90%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 215 28% 10%;
+    --popover-foreground: 215 16% 90%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 215 84% 65%;
+    --primary-light: 215 84% 75%;
+    --primary-foreground: 215 28% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --accent: 160 84% 55%;
+    --accent-light: 160 84% 65%;
+    --accent-foreground: 215 28% 8%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --secondary: 215 28% 15%;
+    --secondary-foreground: 215 16% 80%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --muted: 215 28% 15%;
+    --muted-foreground: 215 16% 60%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --warning: 38 92% 60%;
+    --warning-foreground: 215 28% 8%;
+    
+    --destructive: 0 84% 70%;
+    --destructive-foreground: 215 28% 8%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --success: 160 84% 55%;
+    --success-foreground: 215 28% 8%;
+
+    --border: 215 28% 20%;
+    --input: 215 28% 15%;
+    --ring: 215 84% 65%;
+
+    /* Agent colors for dark mode */
+    --agent-bg: 215 84% 65%;
+    --agent-text: 215 28% 8%;
+    --user-bg: 215 28% 15%;
+    --user-text: 215 16% 90%;
+
+    /* Driver colors for dark mode */
+    --driver-active: 160 84% 55%;
+    --driver-inactive: 215 16% 40%;
+    --route-primary: 215 84% 65%;
+    --route-alternative: 38 92% 60%;
+
+    /* Status colors for dark mode */
+    --status-online: 160 84% 55%;
+    --status-busy: 38 92% 60%;
+    --status-offline: 215 16% 50%;
+
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(215 84% 55%) 0%, hsl(215 84% 65%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(160 84% 45%) 0%, hsl(160 84% 55%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(215 28% 10%) 0%, hsl(215 28% 12%) 100%);
+
+    --sidebar-background: 215 28% 8%;
+    --sidebar-foreground: 215 16% 90%;
+    --sidebar-primary: 215 84% 65%;
+    --sidebar-primary-foreground: 215 28% 8%;
+    --sidebar-accent: 215 28% 15%;
+    --sidebar-accent-foreground: 215 16% 90%;
+    --sidebar-border: 215 28% 20%;
+    --sidebar-ring: 215 84% 65%;
   }
+}
+
 }
 
 @layer base {
@@ -100,6 +187,184 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+}
+
+@layer components {
+  /* Chat message styles */
+  .message-user {
+    @apply bg-[hsl(var(--user-bg))] text-[hsl(var(--user-text))] ml-12 rounded-t-xl rounded-bl-xl rounded-br-md;
+  }
+
+  .message-agent {
+    @apply bg-[hsl(var(--agent-bg))] text-[hsl(var(--agent-text))] mr-12 rounded-t-xl rounded-br-xl rounded-bl-md;
+  }
+
+  /* Status indicators */
+  .status-online {
+    @apply bg-[hsl(var(--status-online))] text-[hsl(var(--success-foreground))];
+  }
+
+  .status-busy {
+    @apply bg-[hsl(var(--status-busy))] text-[hsl(var(--warning-foreground))];
+  }
+
+  .status-offline {
+    @apply bg-[hsl(var(--status-offline))] text-[hsl(var(--muted-foreground))];
+  }
+
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  /* Animation utilities */
+  .animate-pulse-soft {
+    animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s var(--ease-smooth) forwards;
+  }
+
+  .animate-slide-down {
+    animation: slide-down 0.3s var(--ease-smooth) forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s var(--ease-smooth) forwards;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.2s var(--ease-bounce) forwards;
+  }
+
+  /* Map styles */
+  .driver-marker {
+    @apply w-4 h-4 rounded-full border-2 border-white shadow-md transition-all duration-300;
+  }
+
+  .driver-marker.active {
+    @apply bg-[hsl(var(--driver-active))] animate-pulse-soft;
+  }
+
+  .driver-marker.inactive {
+    @apply bg-[hsl(var(--driver-inactive))];
+  }
+
+  /* Developer mode styles */
+  .dev-log {
+    @apply font-mono text-sm bg-[hsl(var(--muted))] p-2 rounded border-l-4 border-[hsl(var(--accent))];
+  }
+}
+
+@layer utilities {
+  /* Custom shadows */
+  .shadow-smooth {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-md);
+  }
+
+  .shadow-floating {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Interactive states */
+  .hover-lift {
+    @apply transition-all duration-200 hover:translate-y-[-2px] hover:shadow-elevated;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+
+  .active-scale {
+    @apply transition-transform duration-100 active:scale-95;
+  }
+}
+
+/* Keyframe animations */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
