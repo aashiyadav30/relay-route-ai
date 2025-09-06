@@ -18,51 +18,103 @@ export const MapPanel = ({ drivers, isExpanded, onToggleExpand }: MapPanelProps)
   const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
   const [driverPositions, setDriverPositions] = useState<{[key: string]: {x: number, y: number}}>({});
 
-  // Initialize scattered positions for drivers
+  // Define route paths for realistic driver movement
+  const routes = [
+    // Main routes (curved paths)
+    [{x: 20, y: 80}, {x: 120, y: 60}, {x: 220, y: 90}, {x: 320, y: 120}, {x: 420, y: 100}, {x: 520, y: 80}, {x: 620, y: 110}, {x: 720, y: 140}, {x: 800, y: 120}],
+    [{x: 30, y: 180}, {x: 130, y: 200}, {x: 230, y: 170}, {x: 330, y: 140}, {x: 430, y: 160}, {x: 530, y: 180}, {x: 630, y: 150}, {x: 730, y: 120}, {x: 820, y: 140}],
+    [{x: 80, y: 300}, {x: 180, y: 280}, {x: 280, y: 300}, {x: 380, y: 320}, {x: 480, y: 300}, {x: 580, y: 280}, {x: 680, y: 300}, {x: 780, y: 320}, {x: 850, y: 300}],
+    // Alternative routes (straight segments)
+    [{x: 20, y: 80}, {x: 90, y: 95}, {x: 160, y: 85}, {x: 230, y: 100}, {x: 300, y: 90}, {x: 370, y: 105}, {x: 440, y: 95}, {x: 510, y: 110}, {x: 580, y: 100}, {x: 650, y: 115}, {x: 720, y: 105}, {x: 800, y: 120}],
+    [{x: 50, y: 250}, {x: 140, y: 240}, {x: 220, y: 255}, {x: 310, y: 245}, {x: 400, y: 260}, {x: 490, y: 250}, {x: 580, y: 265}, {x: 670, y: 255}, {x: 750, y: 270}, {x: 830, y: 260}]
+  ];
+
+  const [driverRoutes, setDriverRoutes] = useState<{[key: string]: {routeIndex: number, progress: number, direction: number}}>({});
+
+  // Initialize driver positions and routes
   useEffect(() => {
     const positions: {[key: string]: {x: number, y: number}} = {};
-    const areas = [
-      {minX: 50, maxX: 200, minY: 60, maxY: 140},   // Northwest
-      {minX: 200, maxX: 400, minY: 80, maxY: 180},  // North
-      {minX: 400, maxX: 600, minY: 90, maxY: 170},  // Northeast
-      {minX: 80, maxX: 280, minY: 180, maxY: 280},  // West
-      {minX: 280, maxX: 520, minY: 160, maxY: 260}, // Center
-      {minX: 520, maxX: 750, minY: 140, maxY: 240}, // East
-      {minX: 120, maxX: 320, minY: 280, maxY: 350}, // Southwest
-      {minX: 320, maxX: 580, minY: 270, maxY: 340}, // South
-      {minX: 580, maxX: 780, minY: 260, maxY: 330}, // Southeast
-      {minX: 650, maxX: 820, minY: 100, maxY: 200}  // Far East
-    ];
+    const routeAssignments: {[key: string]: {routeIndex: number, progress: number, direction: number}} = {};
     
     drivers.forEach((driver, index) => {
-      const area = areas[index % areas.length];
+      const routeIndex = index % routes.length;
+      const route = routes[routeIndex];
+      const progress = Math.random(); // Random starting position along route
+      const direction = Math.random() > 0.5 ? 1 : -1; // Random direction
+      
+      // Calculate position based on progress along route
+      const segmentIndex = Math.floor(progress * (route.length - 1));
+      const segmentProgress = (progress * (route.length - 1)) % 1;
+      const startPoint = route[segmentIndex];
+      const endPoint = route[Math.min(segmentIndex + 1, route.length - 1)];
+      
       positions[driver.id] = {
-        x: area.minX + Math.random() * (area.maxX - area.minX),
-        y: area.minY + Math.random() * (area.maxY - area.minY)
+        x: startPoint.x + (endPoint.x - startPoint.x) * segmentProgress,
+        y: startPoint.y + (endPoint.y - startPoint.y) * segmentProgress
+      };
+      
+      routeAssignments[driver.id] = {
+        routeIndex,
+        progress,
+        direction
       };
     });
     
     setDriverPositions(positions);
+    setDriverRoutes(routeAssignments);
   }, [drivers]);
 
-  // Animate driver movement over time
+  // Animate realistic driver movement along routes
   useEffect(() => {
     const interval = setInterval(() => {
       setDriverPositions(prev => {
         const updated = { ...prev };
-        Object.keys(updated).forEach(driverId => {
-          const driver = drivers.find(d => d.id === driverId);
-          if (driver?.status === 'active' || driver?.status === 'busy') {
-            // Small random movement for active/busy drivers
-            updated[driverId] = {
-              x: Math.max(20, Math.min(800, updated[driverId].x + (Math.random() - 0.5) * 15)),
-              y: Math.max(40, Math.min(360, updated[driverId].y + (Math.random() - 0.5) * 10))
-            };
-          }
+        
+        setDriverRoutes(prevRoutes => {
+          const updatedRoutes = { ...prevRoutes };
+          
+          Object.keys(updated).forEach(driverId => {
+            const driver = drivers.find(d => d.id === driverId);
+            const routeInfo = updatedRoutes[driverId];
+            
+            if ((driver?.status === 'active' || driver?.status === 'busy') && routeInfo) {
+              const route = routes[routeInfo.routeIndex];
+              
+              // Update progress along route (speed varies by status)
+              const speed = driver.status === 'active' ? 0.015 : 0.008; // Active drivers move faster
+              let newProgress = routeInfo.progress + (speed * routeInfo.direction);
+              
+              // Handle route boundaries - reverse direction or loop
+              if (newProgress >= 1) {
+                newProgress = 1;
+                updatedRoutes[driverId] = { ...routeInfo, direction: -1 };
+              } else if (newProgress <= 0) {
+                newProgress = 0;
+                updatedRoutes[driverId] = { ...routeInfo, direction: 1 };
+              } else {
+                updatedRoutes[driverId] = { ...routeInfo, progress: newProgress };
+              }
+              
+              // Calculate new position based on progress
+              const segmentIndex = Math.floor(newProgress * (route.length - 1));
+              const segmentProgress = (newProgress * (route.length - 1)) % 1;
+              const startPoint = route[segmentIndex];
+              const endPoint = route[Math.min(segmentIndex + 1, route.length - 1)];
+              
+              // Smooth interpolation between route points
+              updated[driverId] = {
+                x: startPoint.x + (endPoint.x - startPoint.x) * segmentProgress + (Math.random() - 0.5) * 2, // Slight jitter for realism
+                y: startPoint.y + (endPoint.y - startPoint.y) * segmentProgress + (Math.random() - 0.5) * 2
+              };
+            }
+          });
+          
+          return updatedRoutes;
         });
+        
         return updated;
       });
-    }, 3000); // Update every 3 seconds
+    }, 2000); // Update every 2 seconds for smoother movement
 
     return () => clearInterval(interval);
   }, [drivers]);
