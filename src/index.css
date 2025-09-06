@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Grab Synapse AI Design System */
+/* Agentic Last-Mile Coordinator Design System */
 /* Professional logistics interface with modern chat and real-time tracking */
 
 @layer base {
   :root {
-    /* Core Grab Synapse AI theme - vibrant greens and professional accents */
+    /* Core logistics theme - professional blues and emerald accents */
     --background: 240 10% 98%;
     --foreground: 215 25% 15%;
 
@@ -17,21 +17,21 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    /* Vibrant Grab Synapse green - primary brand color */
-    --primary: 145 80% 42%;
-    --primary-light: 145 80% 52%;
+    /* Deep logistics blue - professional and trustworthy */
+    --primary: 215 84% 24%;
+    --primary-light: 215 84% 34%;
     --primary-foreground: 0 0% 98%;
 
-    /* Secondary green accent for success states and actions */
+    /* Emerald accent for success states and actions */
     --accent: 160 84% 39%;
     --accent-light: 160 84% 49%;
     --accent-foreground: 0 0% 98%;
 
-    --secondary: 145 16% 94%;
+    --secondary: 215 16% 94%;
     --secondary-foreground: 215 25% 25%;
 
-    --muted: 145 16% 96%;
-    --muted-foreground: 145 16% 46%;
+    --muted: 215 16% 96%;
+    --muted-foreground: 215 16% 46%;
 
     /* Warning and error states for delivery issues */
     --warning: 38 92% 50%;
@@ -41,42 +41,42 @@
     --destructive-foreground: 0 0% 98%;
 
     /* Enhanced success for completed deliveries */
-    --success: 145 80% 42%;
+    --success: 160 84% 39%;
     --success-foreground: 0 0% 98%;
 
-    --border: 145 16% 90%;
-    --input: 145 16% 94%;
-    --ring: 145 80% 42%;
+    --border: 215 16% 90%;
+    --input: 215 16% 94%;
+    --ring: 215 84% 24%;
 
     --radius: 0.75rem;
 
     /* Agent-specific colors */
-    --agent-bg: 145 80% 42%;
+    --agent-bg: 215 84% 24%;
     --agent-text: 0 0% 98%;
-    --user-bg: 145 16% 96%;
+    --user-bg: 215 16% 96%;
     --user-text: 215 25% 15%;
 
     /* Map and driver colors */
-    --driver-active: 145 80% 42%;
-    --driver-inactive: 145 16% 70%;
-    --route-primary: 145 80% 52%;
+    --driver-active: 160 84% 39%;
+    --driver-inactive: 215 16% 70%;
+    --route-primary: 215 84% 34%;
     --route-alternative: 38 92% 50%;
 
     /* Status colors */
-    --status-online: 145 80% 42%;
+    --status-online: 160 84% 39%;
     --status-busy: 38 92% 50%;
-    --status-offline: 145 16% 60%;
+    --status-offline: 215 16% 60%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(145 80% 42%) 0%, hsl(145 80% 52%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(215 84% 24%) 0%, hsl(215 84% 34%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(160 84% 39%) 0%, hsl(160 84% 49%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(145 16% 98%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(215 16% 98%) 100%);
 
     /* Shadows */
     --shadow-sm: 0 1px 3px hsl(215 25% 15% / 0.1);
     --shadow-md: 0 4px 12px hsl(215 25% 15% / 0.15);
     --shadow-lg: 0 10px 25px hsl(215 25% 15% / 0.2);
-    --shadow-glow: 0 0 20px hsl(145 80% 42% / 0.3);
+    --shadow-glow: 0 0 20px hsl(215 84% 24% / 0.3);
 
     /* Animation easing */
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
@@ -84,82 +84,98 @@
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 145 80% 42%;
+    --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 145 16% 95%;
-    --sidebar-accent-foreground: 145 80% 20%;
-    --sidebar-border: 145 16% 90%;
-    --sidebar-ring: 145 80% 52%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    /* Dark mode for Grab Synapse AI interface */
-    --background: 145 28% 8%;
-    --foreground: 145 16% 90%;
+    /* Dark mode for logistics interface */
+    --background: 215 28% 8%;
+    --foreground: 215 16% 90%;
 
-    --card: 145 28% 10%;
-    --card-foreground: 145 16% 90%;
+    --card: 215 28% 10%;
+    --card-foreground: 215 16% 90%;
 
-    --popover: 145 28% 10%;
-    --popover-foreground: 145 16% 90%;
+    --popover: 215 28% 10%;
+    --popover-foreground: 215 16% 90%;
 
-    --primary: 145 80% 65%;
-    --primary-light: 145 80% 75%;
-    --primary-foreground: 145 28% 8%;
+    --primary: 215 84% 65%;
+    --primary-light: 215 84% 75%;
+    --primary-foreground: 215 28% 8%;
 
     --accent: 160 84% 55%;
     --accent-light: 160 84% 65%;
-    --accent-foreground: 145 28% 8%;
+    --accent-foreground: 215 28% 8%;
 
-    --secondary: 145 28% 15%;
-    --secondary-foreground: 145 16% 80%;
+    --secondary: 215 28% 15%;
+    --secondary-foreground: 215 16% 80%;
 
-    --muted: 145 28% 15%;
-    --muted-foreground: 145 16% 60%;
+    --muted: 215 28% 15%;
+    --muted-foreground: 215 16% 60%;
 
     --warning: 38 92% 60%;
-    --warning-foreground: 145 28% 8%;
+    --warning-foreground: 215 28% 8%;
     
     --destructive: 0 84% 70%;
-    --destructive-foreground: 145 28% 8%;
+    --destructive-foreground: 215 28% 8%;
 
-    --success: 145 80% 55%;
-    --success-foreground: 145 28% 8%;
+    --success: 160 84% 55%;
+    --success-foreground: 215 28% 8%;
 
-    --border: 145 28% 20%;
-    --input: 145 28% 15%;
-    --ring: 145 80% 65%;
+    --border: 215 28% 20%;
+    --input: 215 28% 15%;
+    --ring: 215 84% 65%;
 
     /* Agent colors for dark mode */
-    --agent-bg: 145 80% 65%;
-    --agent-text: 145 28% 8%;
-    --user-bg: 145 28% 15%;
-    --user-text: 145 16% 90%;
+    --agent-bg: 215 84% 65%;
+    --agent-text: 215 28% 8%;
+    --user-bg: 215 28% 15%;
+    --user-text: 215 16% 90%;
 
     /* Driver colors for dark mode */
-    --driver-active: 145 80% 55%;
-    --driver-inactive: 145 16% 40%;
-    --route-primary: 145 80% 65%;
+    --driver-active: 160 84% 55%;
+    --driver-inactive: 215 16% 40%;
+    --route-primary: 215 84% 65%;
     --route-alternative: 38 92% 60%;
 
     /* Status colors for dark mode */
-    --status-online: 145 80% 55%;
+    --status-online: 160 84% 55%;
     --status-busy: 38 92% 60%;
-    --status-offline: 145 16% 50%;
+    --status-offline: 215 16% 50%;
 
     /* Dark mode gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(145 80% 55%) 0%, hsl(145 80% 65%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(215 84% 55%) 0%, hsl(215 84% 65%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(160 84% 45%) 0%, hsl(160 84% 55%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(145 28% 10%) 0%, hsl(145 28% 12%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(215 28% 10%) 0%, hsl(215 28% 12%) 100%);
 
-    --sidebar-background: 145 28% 8%;
-    --sidebar-foreground: 145 16% 90%;
-    --sidebar-primary: 145 80% 65%;
-    --sidebar-primary-foreground: 145 28% 8%;
-    --sidebar-accent: 145 28% 15%;
-    --sidebar-accent-foreground: 145 16% 90%;
-    --sidebar-border: 145 28% 20%;
-    --sidebar-ring: 145 80% 65%;
+    --sidebar-background: 215 28% 8%;
+    --sidebar-foreground: 215 16% 90%;
+    --sidebar-primary: 215 84% 65%;
+    --sidebar-primary-foreground: 215 28% 8%;
+    --sidebar-accent: 215 28% 15%;
+    --sidebar-accent-foreground: 215 16% 90%;
+    --sidebar-border: 215 28% 20%;
+    --sidebar-ring: 215 84% 65%;
   }
 }
 

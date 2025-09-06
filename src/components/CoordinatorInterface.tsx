@@ -40,8 +40,8 @@ export const CoordinatorInterface = () => {
                 <MessageSquare className="w-4 h-4 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold">Grab Synapse AI</h1>
-                <p className="text-sm text-muted-foreground">Last-Mile Coordinator</p>
+                <h1 className="text-xl font-semibold">Last-Mile Coordinator</h1>
+                <p className="text-sm text-muted-foreground">Autonomous Delivery Agent</p>
               </div>
             </div>
             <Badge variant="secondary" className="status-online">
